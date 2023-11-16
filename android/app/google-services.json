@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "867937670023",
+    "project_id": "libraryappmanagement",
+    "storage_bucket": "libraryappmanagement.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:867937670023:android:47d5e5c3f6ebd53f49b922",
+        "android_client_info": {
+          "package_name": "com.example.library_books_management"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8yHrj_JsADG6Q9qtG5h-5EZXVeZZ8c0A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:867937670023:android:07e1931d6d8bf3ac49b922",
+        "android_client_info": {
+          "package_name": "com.example.task"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8yHrj_JsADG6Q9qtG5h-5EZXVeZZ8c0A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
