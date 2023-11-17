@@ -2,7 +2,9 @@
 
 A new Flutter project.
 
-## Getting Started
+## ScreenShots
+<img src="https://github.com/Naga283/Task/assets/75671317/64530be4-717f-4ef6-95ab-34a3b5984d67"/>
+<img  src="https://github.com/Naga283/Task/assets/75671317/ab2dacf2-ecbd-4dc0-bbc9-294af85b38b5"/>
 
 This project is a starting point for a Flutter application.
 
