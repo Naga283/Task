@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:task/providers/is_loading_state_provider.dart';
 import 'package:task/services/get_current_user_name.dart';
 import 'package:task/view/home_page.dart';
@@ -27,6 +28,7 @@ Future<void> registerWithEmailAndPassword(String fullName, String email,
       'email': email,
     });
     await getCurrentUserFullName(ref);
+    await Hive.openBox(FirebaseAuth.instance.currentUser?.uid ?? '');
     ref.read(isLoadingStateProvider.notifier).state = false;
     // Handle success or navigate to the next screen.
     Navigator.of(context).pushAndRemoveUntil(
@@ -66,7 +68,10 @@ Future<void> loginWithEmailAndPassword(
   try {
     ref.read(isLoadingStateProvider.notifier).state = true;
     await FirebaseAuth.instance
-        .signInWithEmailAndPassword(email: email, password: password);
+        .signInWithEmailAndPassword(email: email, password: password)
+        .then((value) => {
+              Hive.openBox(value.user?.uid ?? ''),
+            });
     await getCurrentUserFullName(ref);
     ref.read(isLoadingStateProvider.notifier).state = false;
     Navigator.of(context).pushAndRemoveUntil(

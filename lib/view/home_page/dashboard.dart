@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:task/constants/hive_box_name.dart';
 import 'package:task/utils/colors.dart';
 import 'package:task/utils/styles.dart';
 
@@ -18,67 +17,71 @@ class _DashboardState extends ConsumerState<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
-    final box = Hive.box(hiveBoxNames.commonBox);
+    final currentUserDetails = FirebaseAuth.instance.currentUser?.uid ?? '';
+    final box = Hive.box(currentUserDetails);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Home"),
+        title: const Text("Home"),
         backgroundColor: appColors.primary,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: ValueListenableBuilder<Box>(
-          valueListenable: Hive.box(hiveBoxNames.commonBox).listenable(),
+          valueListenable: Hive.box(currentUserDetails).listenable(),
           builder: (context, box, widget) {
             return ListView.builder(
                 itemCount: box.length,
                 itemBuilder: (context, index) {
-                  return Container(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    margin: EdgeInsets.symmetric(vertical: 10),
-                    decoration: BoxDecoration(
-                      boxShadow: appStyles.boxShadow,
-                      color: appColors.whiteColor,
-                    ),
-                    child: ListTile(
-                      title: Text(box.getAt(index)),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            onPressed: () async {
-                              addItemController.text = box.getAt(index);
-                              await dailogFunc(
-                                context,
-                                box,
-                                () {
-                                  box.putAt(index, "${addItemController.text}");
-                                  // ref.read(listItemsProvider).add(addItemController.text);
-                                  addItemController.clear();
-                                  Navigator.pop(context);
-                                  Fluttertoast.showToast(msg: "Updated");
-                                },
-                                "Update",
-                                "Update Item",
-                              );
-                            },
-                            icon: const Icon(
-                              Icons.edit,
-                              color: Colors.green,
+                  return box.isEmpty
+                      ? const Center(child: Text("No Items"))
+                      : Container(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          margin: const EdgeInsets.symmetric(vertical: 10),
+                          decoration: BoxDecoration(
+                            boxShadow: appStyles.boxShadow,
+                            color: appColors.whiteColor,
+                          ),
+                          child: ListTile(
+                            title: Text(box.getAt(index)),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  onPressed: () async {
+                                    addItemController.text = box.getAt(index);
+                                    await dailogFunc(
+                                      context,
+                                      box,
+                                      () {
+                                        box.putAt(
+                                            index, "${addItemController.text}");
+                                        // ref.read(listItemsProvider).add(addItemController.text);
+                                        addItemController.clear();
+                                        Navigator.pop(context);
+                                        Fluttertoast.showToast(msg: "Updated");
+                                      },
+                                      "Update",
+                                      "Update Item",
+                                    );
+                                  },
+                                  icon: const Icon(
+                                    Icons.edit,
+                                    color: Colors.green,
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    box.deleteAt(index);
+                                  },
+                                  icon: const Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  ),
+                                )
+                              ],
                             ),
                           ),
-                          IconButton(
-                            onPressed: () {
-                              box.deleteAt(index);
-                            },
-                            icon: const Icon(
-                              Icons.delete,
-                              color: Colors.red,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  );
+                        );
                 });
           },
         ),
@@ -130,9 +133,4 @@ class _DashboardState extends ConsumerState<Dashboard> {
       },
     );
   }
-}
-
-callFun() async {
-  final currentUserDetails = FirebaseAuth.instance.currentUser;
-  await Hive.openBox("name");
 }
