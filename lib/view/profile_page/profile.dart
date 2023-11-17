@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:task/providers/user_name_state_provider.dart';
 import 'package:task/services/firebase_authentication.dart';
+import 'package:task/utils/colors.dart';
 import 'package:task/utils/screen_size_utils.dart';
 import 'package:task/view/components/expanded_elevated_btn.dart';
 import 'package:task/view/profile_page/heading_with_disabled_textformfield.dart';
@@ -19,6 +20,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: appColors.primary,
         title: const Text('Profile'),
       ),
       body: Padding(
@@ -56,8 +58,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
             ExpandedElevatedBtn(
               btnName: 'Logout',
               onTap: () async {
-                print("Logout");
-                // await logoutUser(context, ref);
+                await logoutUser(context, ref);
               },
             )
           ],

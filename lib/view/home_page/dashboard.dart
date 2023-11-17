@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:task/constants/hive_box_name.dart';
 import 'package:task/utils/colors.dart';
@@ -13,10 +15,15 @@ class Dashboard extends ConsumerStatefulWidget {
 
 class _DashboardState extends ConsumerState<Dashboard> {
   final TextEditingController addItemController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final box = Hive.box(hiveBoxNames.commonBox);
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Home"),
+        backgroundColor: appColors.primary,
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: ValueListenableBuilder<Box>(
@@ -48,12 +55,13 @@ class _DashboardState extends ConsumerState<Dashboard> {
                                   // ref.read(listItemsProvider).add(addItemController.text);
                                   addItemController.clear();
                                   Navigator.pop(context);
+                                  Fluttertoast.showToast(msg: "Updated");
                                 },
                                 "Update",
                                 "Update Item",
                               );
                             },
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.edit,
                               color: Colors.green,
                             ),
@@ -62,7 +70,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                             onPressed: () {
                               box.deleteAt(index);
                             },
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.delete,
                               color: Colors.red,
                             ),
@@ -76,6 +84,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: appColors.primary,
         onPressed: () async {
           await dailogFunc(
             context,
@@ -85,6 +94,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
               // ref.read(listItemsProvider).add(addItemController.text);
               addItemController.clear();
               Navigator.pop(context);
+              Fluttertoast.showToast(msg: "Added successful");
             },
             "Add",
             "Add Item",
@@ -120,4 +130,9 @@ class _DashboardState extends ConsumerState<Dashboard> {
       },
     );
   }
+}
+
+callFun() async {
+  final currentUserDetails = FirebaseAuth.instance.currentUser;
+  await Hive.openBox("name");
 }

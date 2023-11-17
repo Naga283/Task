@@ -34,7 +34,7 @@ class IconWithHeadingAndSubHeading extends ConsumerWidget {
           ),
           child: Text(
             heading,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 26,
             ),
@@ -43,10 +43,9 @@ class IconWithHeadingAndSubHeading extends ConsumerWidget {
         SizedBox(
           width: 350,
           child: Text(
-            subHeading ??
-                "Just step away from exploring our collection of books",
+            subHeading ?? "Just step away from adding items",
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.grey,
               fontSize: 18,
             ),

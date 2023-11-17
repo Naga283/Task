@@ -40,14 +40,16 @@ class _SplashScreenState extends State<SplashScreen> {
             SizedBox(
               height: screenSizeUtils.screenHeight(context) * 0.1,
             ),
-            SizedBox(
-              width: 350,
-              child: const Text(
-                "Library App Management",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.w600,
+            Center(
+              child: SizedBox(
+                width: 350,
+                child: const Text(
+                  "Task",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),
